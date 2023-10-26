@@ -33,6 +33,17 @@ build {
       "build-source" = basename(path.cwd)
     }
   }
+
   sources = ["sources.googlecompute.test-image"]
+    
+  # generates a packer_manifest.json file containing the packer.iterationID
+  # The GitHub Action retrieves the iteration ID from this file and updates the respective channel to reference it. 
+  post-processor "manifest" {
+    output     = "packer_manifest.json"
+    strip_path = true
+    custom_data = {
+      iteration_id = packer.iterationID
+    }
+  }
 
 }
