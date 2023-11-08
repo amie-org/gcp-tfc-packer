@@ -24,6 +24,8 @@ jobs:
         permissions:
             id-token: write
             contents: read
+        outputs:
+            role_id: ${{ steps.get_role_id.outputs.role_id }}
         steps:
             - name: Retrieve role_id from Vault
               uses: hashicorp/vault-action@v2.4.0
@@ -36,6 +38,7 @@ jobs:
                   secrets: secret/data/customers/acme contact_email # vault secret path, vault-actions will set hello as HELLO=value in env variable
 
             - name: Get role_id from Vault
+              id: get_role_id
               run: |
                   json_output=$(curl -H "X-Vault-Token: $VAULT_TOKEN" -H "X-Vault-Namespace: admin" "https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200/v1/auth/approle/role/web-app-vault-agent/role-id")
                   echo "$json_output"
@@ -46,6 +49,8 @@ jobs:
                    --header "X-Vault-Token: $VAULT_TOKEN" \
                    --request GET \
                    https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200/v1/auth/token/lookup-self | jq -r ".data"
+                   
+                   echo "::set-output name=role_id::$role_id"
 
     build-image:
         name: Build
@@ -79,7 +84,9 @@ jobs:
             - name: Packer Build - Branches
               working-directory: packer
               if: startsWith(github.ref, 'refs/heads/')
-              run: packer build -var "project_id=$GOOGLE_PROJECT" .
+              run: |
+                  echo "role_id: ${{ needs.retrieve-secret.outputs.role_id }}"
+                  packer build -var "project_id=$GOOGLE_PROJECT" -var "role_id=${{ needs.retrieve-secret.outputs.role_id }}" .
 
             - name: Packer Build - Tags
               working-directory: packer
