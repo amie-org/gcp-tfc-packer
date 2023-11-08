@@ -1,5 +1,23 @@
 #!/bin/bash
 
+
+# Install jq
+echo 'Installing jq...'
+sudo apt-get install jq
+
+# Store role_id
+echo 'storing role_id from vault'
+echo '${var.vault_role_id}' > /etc/role_id
+
+# Install Vault
+echo 'Installing Vault...'
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vault
+
+vault --version
+
+
 # agent config
 tee agent-config.hcl <<EOF
 pid_file = "./pidfile"
@@ -12,8 +30,8 @@ vault {
 auto_auth {
   method "approle" {
     config = {
-      role_id_file_path   = "./role_id"
-      secret_id_file_path = "./secret_id"
+      role_id_file_path   = "/etc/role_id"
+      secret_id_file_path = "/etc/secret_id"
       remove_secret_id_file_after_reading = false
     }
   }
@@ -44,6 +62,15 @@ api_proxy {
    use_auto_auth_token = true
 }
 EOF
+
+# print PWD
+echo "current dir"
+PWD
+echo "files in current dir"
+ls
+
+echo "files in /etc"
+ls "/etc"
 
 # # Start a Vault API proxy -- cannot start the vault agent/proxy in an image
 # vault proxy -config=agent-config.hcl \

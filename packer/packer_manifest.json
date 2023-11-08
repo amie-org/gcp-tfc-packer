@@ -10,7 +10,40 @@
       "custom_data": {
         "iteration_id": "01HDQK9JM8JMYJC4M4N7ZFWTVV"
       }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699468238,
+      "files": null,
+      "artifact_id": "packer-1699468056",
+      "packer_run_uuid": "6aa067ca-25af-5c5b-3de5-393e53e30100",
+      "custom_data": {
+        "iteration_id": "01HER3162470XTRM27TAGSM3RW"
+      }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699468532,
+      "files": null,
+      "artifact_id": "packer-1699468364",
+      "packer_run_uuid": "f30dd70e-a28c-0d50-09d8-571fdc9e9325",
+      "custom_data": {
+        "iteration_id": "01HER3AJRQ2X17Y6JNDQVPN9FK"
+      }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699470478,
+      "files": null,
+      "artifact_id": "packer-1699470332",
+      "packer_run_uuid": "0ed71f14-e60b-b1d1-3a06-376da7083dc0",
+      "custom_data": {
+        "iteration_id": "01HER56MTZ1RYWRA435E3GF1E0"
+      }
     }
   ],
-  "last_run_uuid": "58122723-96bd-c0e1-6872-fa840071e9b7"
+  "last_run_uuid": "0ed71f14-e60b-b1d1-3a06-376da7083dc0"
 }

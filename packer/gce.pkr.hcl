@@ -16,21 +16,6 @@ source "googlecompute" "test-image" {
   image_description   = "Created with HashiCorp Packer"
   ssh_username        = "root"
   tags                = ["packer", "ubuntu"]
-
-  user_data = <<-EOT
-    #!/bin/bash
-
-    echo "${var.vault_role_id}" > /etc/role_id
-
-    # Install Vault Agent (https://developer.hashicorp.com/vault/downloads)
-    echo "installing vault"
-    
-    sudo apt update && sudo apt install gpg
-    wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-    sudo apt update && sudo apt install vault
-
-  EOT
 }
 
 build {
@@ -53,12 +38,11 @@ build {
 
   sources = ["sources.googlecompute.test-image"]
 
+  # install vault
   provisioner "shell" {
-      inline = [
-        "vault --version"  # Verify Vault Agent installation
-      ]
-    }
-    
+    script = "./vault.sh"
+  }
+
   # generates a packer_manifest.json file containing the packer.iterationID
   # The GitHub Action retrieves the iteration ID from this file and updates the respective channel to reference it. 
   post-processor "manifest" {
