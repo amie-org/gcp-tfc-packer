@@ -86,7 +86,7 @@ jobs:
               if: startsWith(github.ref, 'refs/heads/')
               run: |
                   echo "role_id: ${{ needs.retrieve-secret.outputs.role_id }}"
-                  packer build -var "project_id=$GOOGLE_PROJECT" -var "role_id=${{ needs.retrieve-secret.outputs.role_id }}" .
+                  packer build -var "project_id=$GOOGLE_PROJECT" -var "vault_role_id=${{ needs.retrieve-secret.outputs.role_id }}" .
 
             - name: Packer Build - Tags
               working-directory: packer
