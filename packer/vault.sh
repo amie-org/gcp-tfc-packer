@@ -9,7 +9,7 @@ jq --version
 
 # store VAULT_ADDR
 echo "storing Vault addr in env var"
-echo "export VAULT_ADDR=$VAULT_ADDR" >> ~/.bashrc
+echo "export VAULT_ADDR=$VAULT_ADDR" >> /etc/profile
 echo "$VAULT_ADDR"
 
 
@@ -77,12 +77,11 @@ EOF
 echo "current dir"
 pwd
 
-echo "files in /etc"
-ls "/etc"
+echo "role_id stored at /etc/role_id"
 cat /etc/role_id
 
-source ~/.bashrc
-cat .bashrc
+
+cat /etc/profile
 # # Start a Vault API proxy -- cannot start the vault agent/proxy in an image
 # vault proxy -config=agent-config.hcl \
 #    -config=agent-listener-config.hcl
