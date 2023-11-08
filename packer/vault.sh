@@ -3,7 +3,9 @@
 
 # Install jq
 echo 'Installing jq...'
-sudo apt-get install jq
+sudo apt update && sudo apt-get install -y jq
+
+jq --version
 
 # Store role_id
 echo 'storing role_id from vault'
@@ -65,7 +67,7 @@ EOF
 
 # print PWD
 echo "current dir"
-PWD
+pwd
 echo "files in current dir"
 ls
 

@@ -43,7 +43,29 @@
       "custom_data": {
         "iteration_id": "01HER56MTZ1RYWRA435E3GF1E0"
       }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699476515,
+      "files": null,
+      "artifact_id": "packer-1699476280",
+      "packer_run_uuid": "514b747f-aaf8-adb1-af00-90931a89b1d8",
+      "custom_data": {
+        "iteration_id": "01HERAW4SDHDA9D651YYBQWA90"
+      }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699476857,
+      "files": null,
+      "artifact_id": "packer-1699476684",
+      "packer_run_uuid": "cd86b7e4-a0c4-5647-ad49-019abaecd95c",
+      "custom_data": {
+        "iteration_id": "01HERB8FE6TTHQAHZ4BWBBPRDQ"
+      }
     }
   ],
-  "last_run_uuid": "0ed71f14-e60b-b1d1-3a06-376da7083dc0"
+  "last_run_uuid": "cd86b7e4-a0c4-5647-ad49-019abaecd95c"
 }
