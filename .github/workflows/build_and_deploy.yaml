@@ -16,6 +16,7 @@ env:
     HCP_ORGANIZATION_ID: ${{ secrets.HCP_ORGANIZATION_ID }}
     HCP_BUCKET_NAME: "learn-packer-github-actions"
     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+    GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
 
 jobs:
     retrieve-secret:
@@ -78,7 +79,7 @@ jobs:
             - name: Packer Build - Branches
               working-directory: packer
               if: startsWith(github.ref, 'refs/heads/')
-              run: packer build .
+              run: packer build -var "project_id=$GOOGLE_PROJECT" .
 
             - name: Packer Build - Tags
               working-directory: packer

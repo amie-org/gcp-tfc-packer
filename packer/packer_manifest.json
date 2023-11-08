@@ -1,0 +1,16 @@
+{
+  "builds": [
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1698377966,
+      "files": null,
+      "artifact_id": "packer-1698377812",
+      "packer_run_uuid": "58122723-96bd-c0e1-6872-fa840071e9b7",
+      "custom_data": {
+        "iteration_id": "01HDQK9JM8JMYJC4M4N7ZFWTVV"
+      }
+    }
+  ],
+  "last_run_uuid": "58122723-96bd-c0e1-6872-fa840071e9b7"
+}

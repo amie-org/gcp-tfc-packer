@@ -8,3 +8,7 @@ variable "zone" {
 
   default = "us-central1-c"
 }
+
+variable "vault_role_id" {
+  type = string
+}
