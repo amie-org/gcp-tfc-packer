@@ -37,7 +37,7 @@ jobs:
             - name: Get role_id from Vault
               run: |
                   role_id=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" -H "X-Vault-Namespace: admin" "https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200/v1/auth/approle/role/web-app-vault-agent/role-id" | jq -r '.data.role_id')
-                  echo "role_id: $role_id" ; vault token: $VAULT_TOKEN ; vault namespace = $VAULT_NAMESPACE ; vault addr = $VAULT_ADDR" ; echo "$role_id"
+                  echo "role_id: $role_id" ; vault token: $VAULT_TOKEN ;
 
     build-image:
         name: Build
