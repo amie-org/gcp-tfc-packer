@@ -25,8 +25,10 @@ channel_name="$2"
 iteration_id="$3"
 base_url="https://api.cloud.hashicorp.com/packer/2021-04-30/organizations/$HCP_ORGANIZATION_ID/projects/$HCP_PROJECT_ID"
 
+echo "$bucket_slug $channel_name $iteration_id"
 # If on main branch, set channel to release
 if [ "$channel_name" == "main" ]; then
+  echo "setting channel to release"
   channel_name="release"
 fi
 

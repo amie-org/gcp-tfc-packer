@@ -15,8 +15,29 @@ env:
     HCP_PROJECT_ID: ${{ secrets.HCP_PROJECT_ID }}
     HCP_ORGANIZATION_ID: ${{ secrets.HCP_ORGANIZATION_ID }}
     HCP_BUCKET_NAME: "learn-packer-github-actions"
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
 jobs:
+    retrieve-secret:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        steps:
+            - name: Retrieve secret from Vault
+              uses: hashicorp/vault-action@v2.4.0
+              with:
+                  exportToken: true # exports vault token as env variable; optional
+                  method: jwt
+                  url: https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200
+                  namespace: admin
+                  role: github-actions # vault role name
+                  secrets: secret/data/ci/github-actions hello # vault secret path, vault-actions will set hello as HELLO=value in env variable
+
+            - name: Use secret from Vault
+              run: |
+                  echo "secret: $HELLO ; vault token: $VAULT_TOKEN."
+
     build-image:
         name: Build
         runs-on: ubuntu-latest
@@ -31,7 +52,15 @@ jobs:
               name: "Authenticate to Google Cloud"
               uses: "google-github-actions/auth@v1"
               with:
-                  credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+                  credentials_json: ${{ env.GOOGLE_CREDENTIALS }}
+
+            # to install packer (needed only for local testing)
+            # https://github.com/hashicorp/setup-packer
+            - name: Setup `packer`
+              uses: hashicorp/setup-packer@main
+              id: setup
+              with:
+                  version: "latest"
 
             - name: Packer Init
               working-directory: packer
@@ -39,7 +68,7 @@ jobs:
 
             - name: Packer Build - Branches
               working-directory: packer
-              if: "startsWith(github.ref, 'refs/heads/')"
+              if: startsWith(github.ref, 'refs/heads/')
               run: packer build .
 
             - name: Packer Build - Tags
@@ -55,16 +84,18 @@ jobs:
                   build=$(jq -r '.builds[] | select(.packer_run_uuid == "'"$last_run_uuid"'")' "./packer_manifest.json")
                   iteration_id=$(echo "$build" | jq -r '.custom_data.iteration_id')
                   echo "::set-output name=iteration_id::$iteration_id"
+
     update-hcp-packer-channel:
         name: Update HCP Packer channel
         needs: ["build-image"]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+              uses: "actions/checkout@v4"
 
             - name: Create and set channel
               working-directory: .github/scripts
+              # passes 3 arguments into the shell script: HCP Bucket name, channel name and iteration id
               run: |
                   channel_name=$( echo ${{github.ref_name}} | sed 's/\./-/g')
                   ./create_channel_iteration.sh $HCP_BUCKET_NAME $channel_name "${{ needs.build-image.outputs.iteration_id }}"
