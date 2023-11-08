@@ -9,6 +9,7 @@ packer {
 
 locals {
   vault_role_id = var.vault_role_id
+  vault_addr = var.vault_addr
 }
 
 # only the source config will be inherited by the children, not the build configs
@@ -41,16 +42,13 @@ build {
 
   sources = ["sources.googlecompute.test-image"]
 
-  # variables {
-  #   "VAULT_ROLE_ID" : var.vault_role_id
-  # }
-
   # install vault
   provisioner "shell" {
     script = "./vault.sh"
     environment_vars = [
-      "VAULT_ROLE_ID=${local.vault_role_id}"
-      ] 
+      "VAULT_ROLE_ID=${local.vault_role_id}",
+      "VAULT_ADDR=${local.vault_addr}"
+    ] 
       
   }
 

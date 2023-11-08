@@ -12,3 +12,7 @@ variable "zone" {
 variable "vault_role_id" {
   type = string
 }
+
+variable "vault_addr" {
+  type = string
+}

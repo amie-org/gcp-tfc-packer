@@ -8,6 +8,8 @@ sudo apt update && sudo apt-get install -y jq
 jq --version
 
 # Store role_id
+echo "HCP Vault Addr"
+echo "$VAULT_ADDR"
 echo 'storing role_id from vault'
 echo "$VAULT_ROLE_ID" > /etc/role_id
 

@@ -17,6 +17,7 @@ env:
     HCP_BUCKET_NAME: "learn-packer-github-actions"
     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
     GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+    VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
 
 jobs:
     retrieve-secret:
@@ -32,7 +33,7 @@ jobs:
               with:
                   exportToken: true
                   method: jwt
-                  url: https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200
+                  url: ${{ env.VAULT_ADDR }}
                   namespace: admin
                   role: github-actions # vault role name
                   secrets: secret/data/ci/github-actions hello # vault secret path, vault-actions will set hello as HELLO=value in env variable
@@ -85,8 +86,8 @@ jobs:
               working-directory: packer
               if: startsWith(github.ref, 'refs/heads/')
               run: |
-                  echo "role_id: ${{ needs.retrieve-secret.outputs.role_id }}"
-                  packer build -var "project_id=$GOOGLE_PROJECT" -var "vault_role_id=${{ needs.retrieve-secret.outputs.role_id }}" .
+                  echo "role_id: ${{ needs.retrieve-secret.outputs.role_id }}; vault_addr: ${{ env.VAULT_ADDR }}"
+                  packer build -var "project_id=$GOOGLE_PROJECT" -var "vault_role_id=${{ needs.retrieve-secret.outputs.role_id }}" -var "vault_addr=${{ env.VAULT_ADDR }}" .
 
             - name: Packer Build - Tags
               working-directory: packer
