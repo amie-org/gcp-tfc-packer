@@ -7,11 +7,17 @@ sudo apt update && sudo apt-get install -y jq
 
 jq --version
 
-# Store role_id
-echo "HCP Vault Addr"
+# store VAULT_ADDR
+echo "storing Vault addr in env var"
+echo "export VAULT_ADDR=$VAULT_ADDR" >> ~/.bashrc
 echo "$VAULT_ADDR"
+
+
+# Store role_id
 echo 'storing role_id from vault'
 echo "$VAULT_ROLE_ID" > /etc/role_id
+
+
 
 
 # Install Vault
@@ -71,8 +77,6 @@ EOF
 # print PWD
 echo "current dir"
 pwd
-echo "files in current dir"
-ls
 
 echo "files in /etc"
 ls "/etc"
