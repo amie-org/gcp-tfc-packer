@@ -19,7 +19,6 @@ echo "$VAULT_ROLE_ID" > /etc/role_id
 
 
 
-
 # Install Vault
 echo 'Installing Vault...'
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -82,6 +81,8 @@ echo "files in /etc"
 ls "/etc"
 cat /etc/role_id
 
+source ~/.bashrc
+cat .bashrc
 # # Start a Vault API proxy -- cannot start the vault agent/proxy in an image
 # vault proxy -config=agent-config.hcl \
 #    -config=agent-listener-config.hcl
