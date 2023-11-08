@@ -24,23 +24,25 @@ jobs:
             id-token: write
             contents: read
         steps:
-            - name: Retrieve secret from Vault
+            - name: Retrieve role_id from Vault
               uses: hashicorp/vault-action@v2.4.0
               with:
-                  exportToken: true # exports vault token as env variable; optional
+                  exportToken: true
                   method: jwt
                   url: https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200
                   namespace: admin
                   role: github-actions # vault role name
                   secrets: secret/data/ci/github-actions hello # vault secret path, vault-actions will set hello as HELLO=value in env variable
 
-            - name: Use secret from Vault
+            - name: Get role_id from Vault
               run: |
-                  echo "secret: $HELLO ; vault token: $VAULT_TOKEN."
+                  role_id=$(curl -s -H "X-Vault-Token: $VAULT_TOKEN" -H "X-Vault-Namespace: admin" "https://vaultcluster-public-vault-4e04a4d0.810def75.z1.hashicorp.cloud:8200/v1/auth/approle/role/web-app-vault-agent/role-id" | jq -r '.data.role_id')
+                  echo "role_id: $role_id" ; vault token: $VAULT_TOKEN ; vault namespace = $VAULT_NAMESPACE ; vault addr = $VAULT_ADDR" ; echo "$role_id"
 
     build-image:
         name: Build
         runs-on: ubuntu-latest
+        needs: ["retrieve-secret"]
         outputs:
             iteration_id: ${{ steps.hcp.outputs.iteration_id }}
         steps:
