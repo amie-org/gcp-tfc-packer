@@ -65,7 +65,40 @@
       "custom_data": {
         "iteration_id": "01HERB8FE6TTHQAHZ4BWBBPRDQ"
       }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699480950,
+      "files": null,
+      "artifact_id": "packer-1699480766",
+      "packer_run_uuid": "e24e06a7-cad2-019b-1905-b350bf2b0a42",
+      "custom_data": {
+        "iteration_id": "01HERF51FMRGN7PV99BQ3WXSNH"
+      }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699481188,
+      "files": null,
+      "artifact_id": "packer-1699481007",
+      "packer_run_uuid": "5173fb2f-edd3-6a4a-adfd-ceca801c096f",
+      "custom_data": {
+        "iteration_id": "01HERFCCQFNZJG0RMVNNVTD60T"
+      }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699481716,
+      "files": null,
+      "artifact_id": "packer-1699481511",
+      "packer_run_uuid": "768880d4-ffd5-5a26-235c-7ffba9cacc16",
+      "custom_data": {
+        "iteration_id": "01HERFVSCK4MZ288SC02HZ3QPX"
+      }
     }
   ],
-  "last_run_uuid": "cd86b7e4-a0c4-5647-ad49-019abaecd95c"
+  "last_run_uuid": "768880d4-ffd5-5a26-235c-7ffba9cacc16"
 }

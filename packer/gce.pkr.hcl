@@ -7,6 +7,9 @@ packer {
   }
 }
 
+locals {
+  vault_role_id = var.vault_role_id
+}
 
 # only the source config will be inherited by the children, not the build configs
 source "googlecompute" "test-image" {
@@ -38,9 +41,17 @@ build {
 
   sources = ["sources.googlecompute.test-image"]
 
+  # variables {
+  #   "VAULT_ROLE_ID" : var.vault_role_id
+  # }
+
   # install vault
   provisioner "shell" {
     script = "./vault.sh"
+    environment_vars = [
+      "VAULT_ROLE_ID=${local.vault_role_id}"
+      ] 
+      
   }
 
   # generates a packer_manifest.json file containing the packer.iterationID

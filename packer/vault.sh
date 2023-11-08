@@ -9,7 +9,8 @@ jq --version
 
 # Store role_id
 echo 'storing role_id from vault'
-echo '${var.vault_role_id}' > /etc/role_id
+echo "$VAULT_ROLE_ID" > /etc/role_id
+
 
 # Install Vault
 echo 'Installing Vault...'
@@ -73,6 +74,7 @@ ls
 
 echo "files in /etc"
 ls "/etc"
+cat /etc/role_id
 
 # # Start a Vault API proxy -- cannot start the vault agent/proxy in an image
 # vault proxy -config=agent-config.hcl \
