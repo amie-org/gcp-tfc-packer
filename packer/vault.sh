@@ -12,10 +12,14 @@ echo "storing Vault addr in env var"
 echo "export VAULT_ADDR=$VAULT_ADDR" >> /etc/profile
 echo "$VAULT_ADDR"
 
+# store VAULT_NAMESPACE
+echo "storing Vault namespace in env var"
+echo "export VAULT_NAMESPACE=$VAULT_NAMESPACE" >> /etc/profile
+echo "$VAULT_NAMESPACE"
 
 # Store role_id
 echo 'storing role_id from vault'
-echo "$VAULT_ROLE_ID" > /etc/vault/role_id
+echo "$VAULT_ROLE_ID" > /etc/vault.d/role_id
 
 
 
