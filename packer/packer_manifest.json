@@ -109,7 +109,18 @@
       "custom_data": {
         "iteration_id": "01HERMJP8K0ZDXR6F4FNRE7AAX"
       }
+    },
+    {
+      "name": "test-image",
+      "builder_type": "googlecompute",
+      "build_time": 1699487562,
+      "files": null,
+      "artifact_id": "packer-1699487390",
+      "packer_run_uuid": "74c7fec6-1731-b449-4161-53928be67512",
+      "custom_data": {
+        "iteration_id": "01HERNF70Z3B4KN6W5D3DDFZRN"
+      }
     }
   ],
-  "last_run_uuid": "ed54d360-e4f8-0d58-662e-63f8478efb0d"
+  "last_run_uuid": "74c7fec6-1731-b449-4161-53928be67512"
 }

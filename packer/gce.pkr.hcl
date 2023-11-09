@@ -10,6 +10,7 @@ packer {
 locals {
   vault_role_id = var.vault_role_id
   vault_addr = var.vault_addr
+  vault_namespace = var.vault_namespace
 }
 
 # only the source config will be inherited by the children, not the build configs
@@ -47,7 +48,8 @@ build {
     script = "./vault.sh"
     environment_vars = [
       "VAULT_ROLE_ID=${local.vault_role_id}",
-      "VAULT_ADDR=${local.vault_addr}"
+      "VAULT_ADDR=${local.vault_addr}",
+      "VAULT_NAMESPACE=${local.vault_namespace}"
     ] 
       
   }

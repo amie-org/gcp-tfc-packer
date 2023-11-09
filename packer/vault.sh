@@ -15,7 +15,7 @@ echo "$VAULT_ADDR"
 
 # Store role_id
 echo 'storing role_id from vault'
-echo "$VAULT_ROLE_ID" > /etc/role_id
+echo "$VAULT_ROLE_ID" > /etc/vault/role_id
 
 
 
@@ -29,7 +29,7 @@ vault --version
 
 
 # agent config
-tee agent-config.hcl <<EOF
+tee /etc/vault.d/agent-config.hcl <<EOF
 pid_file = "./pidfile"
 
 vault {
@@ -40,15 +40,15 @@ vault {
 auto_auth {
   method "approle" {
     config = {
-      role_id_file_path   = "/etc/role_id"
-      secret_id_file_path = "/etc/secret_id"
+      role_id_file_path   = "/etc/vault.d/role_id"
+      secret_id_file_path = "/etc/vault.d/secret_id"
       remove_secret_id_file_after_reading = false
     }
   }
 
    sink "file" {
       config = {
-            path = "$PWD/vault-token-via-agent"
+            path = "etc/vault.d/vault-token-via-agent"
       }
    }
 }
@@ -56,7 +56,7 @@ EOF
 
 
 # vault proxy
-tee agent-listener-config.hcl <<EOF
+tee /etc/vault.d/agent-listener-config.hcl <<EOF
 listener "tcp" {
    address     = "127.0.0.1:8100"
    tls_disable = true
@@ -77,8 +77,8 @@ EOF
 echo "current dir"
 pwd
 
-echo "role_id stored at /etc/role_id"
-cat /etc/role_id
+echo "role_id stored at /etc/vault.d/role_id"
+cat /etc/vault.d/role_id
 
 
 cat /etc/profile

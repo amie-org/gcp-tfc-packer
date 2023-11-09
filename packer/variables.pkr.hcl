@@ -5,7 +5,6 @@ variable "project_id" {
 
 variable "zone" {
   type = string
-
   default = "us-central1-c"
 }
 
@@ -15,4 +14,9 @@ variable "vault_role_id" {
 
 variable "vault_addr" {
   type = string
+}
+
+variable "vault_namespace" {
+  type = string
+  default = "admin"
 }
