@@ -7,6 +7,16 @@ sudo apt update && sudo apt-get install -y jq
 
 jq --version
 
+
+# Install Vault
+echo 'Installing Vault...'
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vault
+
+echo "vault version:"
+vault --version
+
 # store VAULT_ADDR
 echo "storing Vault addr in env var"
 echo "export VAULT_ADDR=$VAULT_ADDR" >> /etc/profile
@@ -20,16 +30,8 @@ echo "$VAULT_NAMESPACE"
 # Store role_id
 echo 'storing role_id from vault'
 echo "$VAULT_ROLE_ID" > /etc/vault.d/role_id
-
-
-
-# Install Vault
-echo 'Installing Vault...'
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install vault
-
-vault --version
+echo "role_id stored at /etc/vault.d/role_id"
+cat /etc/vault.d/role_id
 
 
 # agent config
@@ -76,13 +78,6 @@ api_proxy {
    use_auto_auth_token = true
 }
 EOF
-
-# print PWD
-echo "current dir"
-pwd
-
-echo "role_id stored at /etc/vault.d/role_id"
-cat /etc/vault.d/role_id
 
 
 cat /etc/profile
